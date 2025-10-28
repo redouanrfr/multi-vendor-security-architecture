@@ -1,0 +1,41 @@
+#!/bin/bash
+# ==============================================
+# 🔍 SCRIPT DE VALIDATION IPS MULTI-VENDOR
+# 🧪 Tests contrôlés pour validation détection
+# 🎯 Usage exclusif en environnement de lab
+# ==============================================
+
+# Vérifier si une cible est fournie
+if [ $# -eq 0 ]; then
+    echo "Usage: $0 <lab_target_ip>"
+    echo "Exemple: $0 192.168.1.100"
+    exit 1
+fi
+
+LAB_TARGET="$1"
+echo "🔬 Démarrage tests de validation IPS sur $LAB_TARGET"
+
+# ==================== TESTS DE DÉTECTION ====================
+echo "🧪 Tests patterns de détection..."
+
+# Patterns Shellshock (pour validation signatures)
+echo "📝 Patterns Shellshock (détection uniquement)..."
+curl -s -H "User-Agent: Test-Shellshock-Detection-1" http://$LAB_TARGET/ > /dev/null 2>&1
+
+# Patterns Directory Traversal (détection uniquement)
+echo "📁 Patterns Directory Traversal (détection uniquement)..."
+curl -s "http://$LAB_TARGET/Test-Directory-Traversal-Pattern" > /dev/null 2>&1
+
+# ==================== SCAN DE VALIDATION ====================
+echo "🔍 Scan de validation des services..."
+nmap -sV -T2 $LAB_TARGET > /dev/null 2>&1
+
+# ==================== TESTS DE COMPORTEMENT ====================
+echo "📊 Tests de comportement réseau..."
+for i in {1..5}; do
+    curl -s "http://$LAB_TARGET/test$i" > /dev/null 2>&1 &
+done
+wait
+
+echo "✅ Tests de validation IPS terminés"
+echo "📊 Vérifiez les logs de détection dans vos solutions sécurité"

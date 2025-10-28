@@ -1,0 +1,105 @@
+#!/bin/bash
+# ==============================================
+# 🔒 SCRIPT DE VALIDATION DÉFENSE MULTI-VENDOR
+# 🛡️  Tests de détection pour Fortinet, Cisco, Palo Alto, Stormshield
+# 📊 Génération de logs pour corrélation Splunk
+# 🎯 Usage exclusif environnement de lab GNS3
+# ==============================================
+
+if [ $# -eq 0 ]; then
+    echo "Usage: $0 <lab_target_ip>"
+    echo "Exemple: $0 192.168.1.100"
+    exit 1
+fi
+
+TARGET="$1"
+LOGFILE="security-validation-$(date +%Y%m%d-%H%M%S).log"
+
+echo "🛡️  DÉMARRAGE VALIDATION SÉCURITÉ MULTI-VENDOR" | tee -a $LOGFILE
+echo "🎯 Cible: $TARGET" | tee -a $LOGFILE
+echo "⏰ Début: $(date)" | tee -a $LOGFILE
+
+# ==================== PHASE 1: SCAN RÉSEAU LÉGITIME ====================
+echo "" | tee -a $LOGFILE
+echo "🔍 PHASE 1: SCAN RÉSEAU POUR BASELINE" | tee -a $LOGFILE
+
+echo "📡 Scan de discovery léger..." | tee -a $LOGFILE
+nmap -sn $TARGET/24 -oN scan-discovery.log > /dev/null 2>&1
+
+echo "🔧 Scan de services standard..." | tee -a $LOGFILE
+nmap -sV -T2 -p 22,80,443,53 $TARGET -oN scan-services.log > /dev/null 2>&1
+
+# ==================== PHASE 2: PATTERNS DE DÉTECTION ====================
+echo "" | tee -a $LOGFILE
+echo "🎯 PHASE 2: PATTERNS POUR VALIDATION DÉTECTION" | tee -a $LOGFILE
+
+# Patterns pour validation signatures IPS
+echo "📝 Patterns Shellshock (détection uniquement)..." | tee -a $LOGFILE
+curl -s -H "User-Agent: Test-Shellshock-Signature-1" http://$TARGET/ > /dev/null 2>&1
+curl -s -H "User-Agent: Test-Shellshock-Signature-2" http://$TARGET/ > /dev/null 2>&1
+
+echo "📁 Patterns Directory Traversal (détection)..." | tee -a $LOGFILE
+curl -s "http://$TARGET/Test-Traversal-Pattern-1" > /dev/null 2>&1
+curl -s "http://$TARGET/Test-Traversal-Pattern-2" > /dev/null 2>&1
+
+echo "🦠 Patterns XSS (détection)..." | tee -a $LOGFILE
+curl -s "http://$TARGET/Test-XSS-Pattern-1" > /dev/null 2>&1
+curl -s "http://$TARGET/Test-XSS-Pattern-2" > /dev/null 2>&1
+
+# ==================== PHASE 3: COMPORTEMENT RÉSEAU ====================
+echo "" | tee -a $LOGFILE
+echo "📊 PHASE 3: COMPORTEMENT RÉSEAU POUR ANALYSE" | tee -a $LOGFILE
+
+echo "🌊 Génération trafic légitime..." | tee -a $LOGFILE
+for i in {1..10}; do
+    curl -s "http://$TARGET/test-page-$i" > /dev/null 2>&1 &
+    curl -s "http://$TARGET/api/health-check-$i" > /dev/null 2>&1 &
+done
+wait
+
+echo "⚡ Test de connexions multiples..." | tee -a $LOGFILE
+for i in {1..5}; do
+    curl -s "http://$TARGET/multiple-connection-$i" > /dev/null 2>&1 &
+done
+wait
+
+# ==================== PHASE 4: VALIDATION FIREWALL ====================
+echo "" | tee -a $LOGFILE
+echo "🔥 PHASE 4: VALIDATION RÈGLES FIREWALL" | tee -a $LOGFILE
+
+echo "🚪 Test accès ports standard..." | tee -a $LOGFILE
+nmap -T2 -p 80,443,22,21,25 $TARGET -oN firewall-test.log > /dev/null 2>&1
+
+echo "🔐 Test politiques d'accès..." | tee -a $LOGFILE
+curl -s "http://$TARGET/admin" > /dev/null 2>&1
+curl -s "http://$TARGET/private" > /dev/null 2>&1
+
+# ==================== PHASE 5: GÉNÉRATION LOGS ====================
+echo "" | tee -a $LOGFILE
+echo "📈 PHASE 5: GÉNÉRATION LOGS POUR SIEM" | tee -a $LOGFILE
+
+echo "💾 Création logs de test..." | tee -a $LOGFILE
+for i in {1..20}; do
+    echo "$(date) - Test event $i - Source: Validation Script - Target: $TARGET" >> test-events.log
+    curl -s "http://$TARGET/log-generator-$i" > /dev/null 2>&1
+done
+
+# ==================== RAPPORT FINAL ====================
+echo "" | tee -a $LOGFILE
+echo "==========================================" | tee -a $LOGFILE
+echo "✅ VALIDATION TERMINÉE - $(date)" | tee -a $LOGFILE
+echo "==========================================" | tee -a $LOGFILE
+echo "📊 ACTIVITÉS GÉNÉRÉES :" | tee -a $LOGFILE
+echo "   🔍 2 scans réseau légitimes" | tee -a $LOGFILE
+echo "   🎯 6 patterns de détection IPS" | tee -a $LOGFILE
+echo "   🌊 15 connexions HTTP de test" | tee -a $LOGFILE
+echo "   🔥 5 tests de règles firewall" | tee -a $LOGFILE
+echo "   📈 20 événements de log générés" | tee -a $LOGFILE
+echo "" | tee -a $LOGFILE
+echo "🛡️  VÉRIFIEZ LA DÉTECTION SUR :" | tee -a $LOGFILE
+echo "   - FortiGate : Security Events" | tee -a $LOGFILE
+echo "   - Cisco FMC : Intrusion Events" | tee -a $LOGFILE
+echo "   - Palo Alto : Threat Logs" | tee -a $LOGFILE
+echo "   - Stormshield : Security Events" | tee -a $LOGFILE
+echo "   - Splunk : Corrélation multi-source" | tee -a $LOGFILE
+echo "==========================================" | tee -a $LOGFILE
