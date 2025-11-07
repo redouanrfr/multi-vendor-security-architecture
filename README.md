@@ -27,3 +27,19 @@
 - **Supervision**: Splunk SIEM
 - **Réseau**: SD-WAN, IPSec, GRE, RIPv2
 - **Testing**: Kali Linux, SLA Monitoring
+
+## 🎬 Démonstrations Vidéo
+
+### 📁 [Dossier des Démonstrations Complètes](./demonstrations/)
+
+**7 démonstrations techniques détaillées :**
+
+- 🏰 **SD-WAN Fortigate** - Failover automatique <5s
+- 🌪️ **SD-WAN Stormshield** - Routage dynamique intégré  
+- ⚔️ **IPS Multi-Vendor** - Tests Kali + corrélation Splunk
+- 🔒 **Tunneling Avancé** - IPsec & GRE séparés
+- 🔧 **Intégration FTD** - Cisco Firepower Management Center
+- 🔍 **IP Tracking Cisco** - Résilience multi-WAN
+- 🛠️ **Environnement Lab** - Démarrage complet infrastructure
+
+*[Voir toutes les démonstrations détaillées](./demonstrations/README.md)*
