@@ -72,4 +72,4 @@ Architecture de sécurité multi-vendor complète simulant un environnement d'en
 
 ---
 
-**🏆 Portfolio Technique** - Architecture de sécurité enterprise réaliste avec backbone RIPv2 et intégration multi-vendor complète.
+**🏆 Portfolio Technique** - Architecture de sécurité enterprise avec backbone RIPv2 et intégration multi-vendor complète.
