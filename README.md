@@ -47,7 +47,6 @@
 
 ## 📚 Documentation
 - [📋 Plan d'adressage IP complet](lab-documentation/addressing_plan.md)
-- [🗺️ Architecture réseau détaillée](lab-documentation/multi-vendor-firewall-ips-splunk-architecture.drawio)
 - [📄 Diagramme réseau (PDF)](lab-documentation/multi-vendor-firewall-ips-splunk-architecture.pdf)
 
 ## 🛠️ Technologies
