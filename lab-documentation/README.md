@@ -2,7 +2,6 @@
 
 ### Architecture Réseau & Sécurité
 - [📋 Plan d'adressage IP complet](addressing_plan.md)
-- [🗺️ Architecture multi-vendor firewalls/IPS/Splunk](multi-vendor-firewall-ips-splunk-architecture.drawio)
 - [📄 Diagramme réseau (PDF)](multi-vendor-firewall-ips-splunk-architecture.pdf)
 
 ### Stack Technologique :
