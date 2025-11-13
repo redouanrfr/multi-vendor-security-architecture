@@ -41,7 +41,7 @@ Architecture de sécurité multi-vendor complète simulant un environnement d'en
 - **Multi-Vendor IPS Testing** via Kali Linux
 - **SIEM Splunk Correlation** logs multi-sources
 - **Advanced VPN (IPsec, GRE)** traversant le backbone
-- **Cisco ASA IPtracking SLA** avec recalcul RIP
+- **Cisco ASA IPtracking SLA** 
 - **GNS3 Lab Environment** 6 sites
 
 ## 📚 Documentation
