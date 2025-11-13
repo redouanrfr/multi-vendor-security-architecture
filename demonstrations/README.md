@@ -1,6 +1,11 @@
 # 🎬 Démonstrations Vidéo
 Dossier des démonstrations techniques multi-vendor.
 
+📥Videos en Téléchargement Direct
+1. Cliquez sur le nom de la vidéo souhaitée
+2. Cliquez sur **"Download"** dans la page GitHub
+3. Ouvrez avec votre lecteur vidéo 📽️favori
+
 ## 📋 Catalogue des Démonstrations
 
 ### 🏰 **`test-sd-wan-fortigate.mp4`** - Implémentation SD-WAN Fortinet avec :Test SD-WAN & Performance
