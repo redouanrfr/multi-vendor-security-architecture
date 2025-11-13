@@ -61,7 +61,7 @@ Architecture de sécurité multi-vendor complète simulant un environnement d'en
 - 🔍 IP Tracking Cisco - Résilience multi-WAN
 - 🛠️ Environnement Lab - Démarrage complet infrastructure
 
-*[Voir toutes les démonstrations détaillées](./demonstrations/ README.md)*
+*[Voir toutes les démonstrations détaillées]( /demonstrations/README.md)*
 
 ## 🛠️ Technologies
 - **Firewalls**: Fortinet, Cisco ASA/FTD, Palo Alto, Stormshield
